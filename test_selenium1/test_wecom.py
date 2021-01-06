@@ -44,6 +44,6 @@ class TestWeCom:
                 self.driver.find_element(By.XPATH, "//*[@id='menu_customer']").click()
         else:
             cookies = self.driver.get_cookies()
-            with open("cookie.json", "w") as f
+            with open("cookie.json", "w") as f:
                 json.dump(cookies, f)
             self.test_cookie()
