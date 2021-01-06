@@ -17,17 +17,15 @@ class TestWeCom:
     def setup(self):
         chrome_args = webdriver.ChromeOptions()
         chrome_args.debugger_address = "127.0.0.1:9222"
-        self.driver = webdriver.Chrome(options=chrome_args, executable_path='/Users/yunbosheng/work/selenium/chromeDriver/chromedriver')
+        self.driver = webdriver.Chrome(options=chrome_args)
 
     def test_cookie(self):
         self.driver.get("https://work.weixin.qq.com/")
         if len(open("cookie.json").read()) != 0:
             with open("cookie.json", "r") as f:
-                    # 读取 cookies
                     cookies = json.load(f)
-                    # 注入 cookies
-                    for cookie in cookies:
-                        self.driver.add_cookie(cookie)
+            for cookie in cookies:
+                self.driver.add_cookie(cookie)
             self.driver.get("https://work.weixin.qq.com/wework_admin/frame#index")
             sleep(3)
             try:
@@ -35,11 +33,9 @@ class TestWeCom:
                     (self.driver.find_element_by_id('menu_index')))
             except Exception:
                 sleep(20)
-                # 获取  cookie
                 cookies = self.driver.get_cookies()
-                # 以文件流的形式打开文件
                 with open("cookie.json", "w") as f:
-                    # 存储 cookie 到 cookie.json
+
                     json.dump(cookies, f)
                 self.test_cookie()
 
@@ -47,10 +43,7 @@ class TestWeCom:
                 sleep(5)
                 self.driver.find_element(By.XPATH, "//*[@id='menu_customer']").click()
         else:
-            # 获取  cookie
             cookies = self.driver.get_cookies()
-            # 以文件流的形式打开文件
-            with open("cookie.json", "w") as f:
-                # 存储 cookie 到 cookie.json
+            with open("cookie.json", "w") as f
                 json.dump(cookies, f)
             self.test_cookie()
